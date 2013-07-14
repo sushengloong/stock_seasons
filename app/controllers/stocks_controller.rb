@@ -36,7 +36,11 @@ class StocksController < ApplicationController
     @tabular_stock_data = @tabular_stock_data.group_by { |d| d[0].strftime('%B') }
 
     @tabular_stock_data.each do |month, rows|
-      rows.unshift [rows.map{ |r| r[ADJ_CLOSE_CHG_INDEX] }.mean.round(2)]
+      change_mean_row = []
+      (ADJ_CLOSE_CHG_INDEX - 1).times { change_mean_row << "" }
+      change_mean_row << "Mean:"
+      change_mean_row << rows.map{ |r| r[ADJ_CLOSE_CHG_INDEX] }.mean.round(2)
+      rows << change_mean_row
     end
 
   rescue OpenURI::HTTPError
