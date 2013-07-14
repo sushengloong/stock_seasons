@@ -40,6 +40,12 @@ class StocksController < ApplicationController
       change_mean_row << "Mean:"
       change_mean_row << rows.map{ |r| r[ADJ_CLOSE_CHG_INDEX] }.compact.mean.round(2)
       rows << change_mean_row
+
+      reliability_row = []
+      (ADJ_CLOSE_CHG_INDEX - 1).times { reliability_row << "" }
+      reliability_row << "Reliability:"
+      reliability_row << calc_reliability(rows)
+      rows << reliability_row
     end
 
   rescue OpenURI::HTTPError
@@ -55,5 +61,28 @@ class StocksController < ApplicationController
     else
       ((current_row[ADJ_CLOSE_INDEX] - prev_row[ADJ_CLOSE_INDEX]) / prev_row[ADJ_CLOSE_INDEX] * 100).round(2)
     end
+  end
+
+  def calc_reliability monthly_data
+    last_index = monthly_data.length - 1
+    mean = monthly_data[last_index][-1]
+    cmp = if mean > 0
+            :>
+          elsif mean < 0
+            :<
+          else
+            :==
+          end
+    reliable_count = 0
+    all_count = 0
+    monthly_data.each_with_index do |row, i|
+      break if i == last_index
+      next if row[ADJ_CLOSE_CHG_INDEX].blank?
+      all_count += 1
+      reliable_count += 1 if row[ADJ_CLOSE_CHG_INDEX].send(cmp, 0)
+    end
+    (reliable_count * 1.0) / all_count * 100
+  rescue ZeroDivisionError
+    0
   end
 end
