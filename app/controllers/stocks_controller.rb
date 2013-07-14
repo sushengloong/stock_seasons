@@ -9,8 +9,7 @@ class StocksController < ApplicationController
   # TODO move into initializer
   Array.class_eval do
     def mean
-      a = compact
-      a.sum * 1.0 / a.size
+      sum * 1.0 / size
     end
   end
 
@@ -39,7 +38,7 @@ class StocksController < ApplicationController
       change_mean_row = []
       (ADJ_CLOSE_CHG_INDEX - 1).times { change_mean_row << "" }
       change_mean_row << "Mean:"
-      change_mean_row << rows.map{ |r| r[ADJ_CLOSE_CHG_INDEX] }.mean.round(2)
+      change_mean_row << rows.map{ |r| r[ADJ_CLOSE_CHG_INDEX] }.compact.mean.round(2)
       rows << change_mean_row
     end
 
