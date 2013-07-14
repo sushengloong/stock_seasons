@@ -8,7 +8,7 @@
   <% @stock_data.each do |row| %>
     <tr>
       <% row.each do |(k, v)| %>
-        <td><%= v %></td>
+        <td><%= format_field v %></td>
       <% end %>
     </tr>
   <% end %>
@@ -22,7 +22,7 @@
     <% rows.each do |row| %>
       <tr>
         <% row.each do |cell| %>
-          <td><%= cell %></td>
+          <td><%= format_field cell %></td>
         <% end %>
       </tr>
     <% end %>
