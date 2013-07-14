@@ -1,0 +1,6 @@
+<%= flash[:error] %>
+<%= form_tag stocks_query_path, method: :get do %>
+  <%= label_tag :symbol, "Symbol" %>
+  <%= text_field_tag :symbol %>
+  <%= submit_tag "GO" %>
+<% end %>

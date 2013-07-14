@@ -1,0 +1,30 @@
+<h2><%= @symbol %></h2>
+<table>
+  <tr>
+    <% @stock_data.headers.each do |header| %>
+      <th><%= header %></th>
+    <% end %>
+  </tr>
+  <% @stock_data.each do |row| %>
+    <tr>
+      <% row.each do |(k, v)| %>
+        <td><%= v %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<hr />
+
+<% @tabular_stock_data.each do |month, rows| %>
+  <h3><%= month %></h3>
+  <table>
+    <% rows.each do |row| %>
+      <tr>
+        <% row.each do |cell| %>
+          <td><%= cell %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
