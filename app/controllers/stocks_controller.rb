@@ -34,18 +34,24 @@ class StocksController < ApplicationController
 
     @tabular_stock_data = @tabular_stock_data.group_by { |d| d[0].strftime('%B') }
 
+    @chart_data = {}
+
     @tabular_stock_data.each do |month, rows|
       change_mean_row = []
       (ADJ_CLOSE_CHG_INDEX - 1).times { change_mean_row << "" }
       change_mean_row << "Mean:"
-      change_mean_row << rows.map{ |r| r[ADJ_CLOSE_CHG_INDEX] }.compact.mean.round(2)
+      mean_value = rows.map{ |r| r[ADJ_CLOSE_CHG_INDEX] }.compact.mean.round(2)
+      change_mean_row << mean_value
       rows << change_mean_row
 
       reliability_row = []
       (ADJ_CLOSE_CHG_INDEX - 1).times { reliability_row << "" }
       reliability_row << "Reliability:"
-      reliability_row << calc_reliability(rows)
+      reliability_value = calc_reliability(rows)
+      reliability_row << reliability_value
       rows << reliability_row
+
+      @chart_data[month] = { mean: mean_value, reliability: reliability_value }
     end
 
   rescue OpenURI::HTTPError

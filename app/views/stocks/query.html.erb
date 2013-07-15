@@ -1,4 +1,7 @@
 <h2><%= @symbol %></h2>
+
+<div id="chart_ctn"></div>
+
 <table>
   <tr>
     <% @stock_data.headers.each do |header| %>
@@ -28,3 +31,11 @@
     <% end %>
   </table>
 <% end %>
+
+<hr />
+
+<script type="text/javascript">
+  $('#chart_ctn').data('xAxis_categories', [<%= raw @chart_data.keys.map{|k| "'#{k}'" }.join(',') %>]);
+  $('#chart_ctn').data('mean_data', [<%= raw @chart_data.values.map{|v| v[:mean] }.join(',') %>]);
+  $('#chart_ctn').data('reliability_data', [<%= raw @chart_data.values.map{|v| v[:reliability].round(2) }.join(',') %>]);
+</script>
