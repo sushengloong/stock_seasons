@@ -35,7 +35,7 @@
 <hr />
 
 <script type="text/javascript">
-  $('#chart_ctn').data('xAxis_categories', [<%= raw @chart_data.keys.map{|k| "'#{k}'" }.join(',') %>]);
-  $('#chart_ctn').data('mean_data', [<%= raw @chart_data.values.map{|v| v[:mean] }.join(',') %>]);
-  $('#chart_ctn').data('reliability_data', [<%= raw @chart_data.values.map{|v| v[:reliability].round(2) }.join(',') %>]);
+  $('#chart_ctn').data('xAxis_categories', [<%= raw @chart_data.keys.reverse.map{|k| "'#{k}'" }.join(',') %>]);
+  $('#chart_ctn').data('mean_data', [<%= raw @chart_data.values.reverse.map{|v| v[:mean] }.join(',') %>]);
+  $('#chart_ctn').data('reliability_data', [<%= raw @chart_data.values.reverse.map{|v| v[:reliability].round(2) }.join(',') %>]);
 </script>
